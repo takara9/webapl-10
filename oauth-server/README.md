@@ -1,20 +1,22 @@
-# Istioテスト用のマルチレイヤなマイクロサービス
+# LDAPと連動する認証マイクロサービス
 
-## Version 1.0
+## Version 0.2
 
 ~~~
 cd container
-docker build -t maho/oauth-server:0.1 .
+docker build -t maho/oauth-server:0.2 .
 
-docker run -it --rm maho/oauth-server:0.1 bash
+docker run -it --rm maho/oauth-server:0.2 bash
 
-docker run -it -p 5000:5000 --rm maho/oauth-server:0.1
-docker run -it --name auth-server -p 5000:5000 maho/oauth-server:0.1
-docker run -d --name auth-server -p 5000:5000 maho/oauth-server:0.1
+docker run -it -p 5000:5000 --rm maho/oauth-server:0.2
+docker run -it --name auth-server -p 5000:5000 maho/oauth-server:0.2
+docker run -d --name auth-server -p 5000:5000 maho/oauth-server:0.2
 
 docker login
-docker push maho/oauth-server:0.1
+docker push maho/oauth-server:0.2
 ~~~
+
+
 
 
 ローカル環境でテスト時
