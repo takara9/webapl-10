@@ -1,7 +1,0 @@
-<script type="text/javascript">
-var myHeaders = new Headers();
-myHeaders.append('Authorization', value={{ Authorization }} );
-</script>
-
-<a href="{{ transfer_url }}">{{ transfer_url }}</a>
-
