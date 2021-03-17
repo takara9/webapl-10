@@ -4,7 +4,7 @@ from flask import Flask, render_template, request, make_response, send_from_dire
 import requests
 
 app = Flask(__name__)
-
+LDAP_URL = os.environ['LDAP_URL']
 
 @app.route('/favicon.ico')
 def favicon():
@@ -20,11 +20,11 @@ def hello():
 def login():
     error = ""
     if request.method == 'POST':
-        url = "http://auth-server:5000/login"
         headers = {"content-type": "application/json"}
         payload = {'userid': request.form['username'], 'passwd': request.form['password']}
-        r = requests.post(url, headers=headers, data=json.dumps(payload))
+        r = requests.post(LDAP_URL, headers=headers, data=json.dumps(payload))
         print(r.text)
+        print(r.status_code)
         response = None
         if r.status_code == 200:
             response = make_response(
@@ -36,8 +36,9 @@ def login():
             response.set_cookie('Authorization',
                                 value=r.headers['Authorization'],
                                 max_age=3600,
-                                secure=True,
+                                secure=False,
                                 samesite=None,
+                                domain="labo.local",
                                 path="/"
                                 )
         else:

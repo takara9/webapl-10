@@ -37,7 +37,7 @@ spec:
       serviceAccountName: oauth-server
       containers:
       - image: maho/oauth-server:0.2
-        imagePullPolicy: IfNotPresent
+        imagePullPolicy: Always
         name: oauth-server
         ports:
         - containerPort: 5000
