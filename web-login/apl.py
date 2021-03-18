@@ -36,7 +36,7 @@ def login():
             response.set_cookie('Authorization',
                                 value=r.headers['Authorization'],
                                 max_age=3600,
-                                secure=False,
+                                secure=True,
                                 samesite=None,
                                 domain="labo.local",
                                 path="/"
