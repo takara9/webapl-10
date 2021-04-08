@@ -9,6 +9,8 @@ import hashlib
 # Flaskフレームワーク関連
 from flask import Flask, render_template, make_response, request
 from flask_restful import Resource, Api, reqparse
+# https://flask-cors.readthedocs.io/en/latest/
+from flask_cors import CORS
 
 # OAuth2関連
 import python_jwt as jwt, jwcrypto.jwk as jwk, datetime
@@ -122,9 +124,25 @@ if __name__ == '__main__':
     create_keys()
 
     # Flaskの初期化
+    #  ブラウザのJavaScriptからヘッダー Authorization を読み取れるようにするための設定を加える
+    #  Cross-Origin Resource Sharing (CORS) を設定して、他オリジンからのアクセスを許可する
+    #    参考 https://flask-cors.readthedocs.io/en/latest/
+    #
     app = Flask(__name__)
+    app.config['CORS_EXPOSE_HEADERS'] = "*"    
+    CORS(app)
+
+
     api = Api(app)
+
+    # ユーザー向けのサービス
+    #  JSON形式でuserid, passwd を受けてLDAPに問い合わせ
+    #  パスワード認証を実施する。パスしたものには JWTを通知する。
     api.add_resource(Login, '/login')
+
+    # アプリケーション側へのサービス
+    #  JWTを検証するためのJWKSを配布するURI
+    #  このアドレスはアプリサーバー以外に公開してはいけない。
     api.add_resource(Jwks, '/jwks')    
 
     # 受け取るパラメータの設定
